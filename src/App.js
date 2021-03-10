@@ -1,112 +1,109 @@
 import React from "react";
-import { Container, Row, Col, Form, Table } from 'react-bootstrap';
+import { Alert, Container, Row, Col, Form, Table } from 'react-bootstrap';
 
 export class App extends React.Component {
 
   constructor() {
     super();
     this.state = {
-      lk1: "Mathe",
-      lk2: "Deutsch",
-      pk3L: "",
-      pk4L: "",
-      pk5L: ""
+      advancedCourse1: "Mathe",
+      advancedCourse2: "Deutsch",
+      examCourse3: "",
+      examCourse4: "",
+      examCourse5: ""
     };
     this.handleChange = this.handleChange.bind(this);
-    this.getCourses = this.getCourses.bind(this);
+    this.updateCourses = this.updateCourses.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateCourses();
   }
 
   handleChange(evt) {
     this.setState({ [evt.target.name]: evt.target.value },
-      () => { this.getCourses() }
+      () => { this.updateCourses() }
     );
   }
 
-  getCourses() {
+  updateCourses() {
+    var examCourse3;
+    var examCourse4;
+    var examCourse5;
 
-    var pk3L = "";
-    var pk4L = "";
-    var pk5L = "";
-
-    if (this.state.lk1 === "Englisch" || this.state.lk1 === "Mathe" || this.state.lk1 === "Physik" || this.state.lk1 === "Bio" || this.state.lk1 === "Chemie") {
-
-      if (this.state.lk1 !== "Mathe" && this.state.lk2 !== "Mathe") {
-        pk3L = "Mathe";
-      }
-
-      if (pk3L === "" && this.state.lk2 !== "Deutsch") {
-        pk3L = "Deutsch";
-      } else if (pk4L === "" && this.state.lk2 !== "Deutsch") {
-        pk4L = "Deutsch";
-      }
-
-      if (this.state.lk2 !== "PoWi" && this.state.lk2 !== "Geschichte" && this.state.lk2 !== "Reli") {
-
-        if (pk3L === "") {
-          pk3L = "PoWi / Geschichte / Reli";
-        } else if (pk4L === "") {
-          pk4L = "PoWi / Geschichte / Reli";
-        } else if (pk5L === "") {
-          pk5L = "PoWi / Geschichte / Reli";
+    if (this.state.advancedCourse1 !== "Mathe" && this.state.advancedCourse2 !== "Mathe") {
+      examCourse3 = "Mathe";
+      if (this.state.advancedCourse2 !== "Deutsch") {
+        examCourse4 = "Deutsch";
+        if (this.state.advancedCourse2 !== "PoWi" && this.state.advancedCourse2 !== "Geschichte" && this.state.advancedCourse2 !== "Reli") {
+          examCourse5 = "PoWi / Geschichte / Reli";
+        } else {
+          examCourse5 = "Frei";
         }
+      } else {
+        examCourse4 = "PoWi / Geschichte / Reli";
+        examCourse5 = "Frei";
       }
 
-      if (pk4L === "") {
-        pk4L = "Englisch, Französisch Fortg., Spanisch Fortg., Latein Anf. oder Naturwissenschaft (Bio, Ch, Ph) oder Informatik";
+    } else if (this.state.advancedCourse2 !== "Deutsch") {
+      examCourse3 = "Deutsch";
+      if (this.state.advancedCourse2 !== "PoWi" && this.state.advancedCourse2 !== "Geschichte" && this.state.advancedCourse2 !== "Reli") {
+        examCourse4 = "PoWi / Geschichte / Reli";
+      } else {
+        examCourse4 = "Englisch, Französisch Fortg., Spanisch Fortg., Latein Anf. oder Naturwissenschaft (Bio, Ch, Ph) oder Informatik";
       }
-
-      if (pk5L === "") {
-        pk5L = "Frei";
-      }
+      examCourse5 = "Frei";
+    } else {
+      examCourse3 = "PoWi / Geschichte / Reli";
+      examCourse4 = "Englisch, Französisch Fortg., Spanisch Fortg., Latein Anf. oder Naturwissenschaft (Bio, Ch, Ph) oder Informatik";
+      examCourse5 = "Frei";
     }
-
-    this.setState({ pk3: pk3L, pk4: pk4L, pk5: pk5L });
-
+    this.setState({ examCourse3: examCourse3, examCourse4: examCourse4, examCourse5: examCourse5 });
   }
 
   render() {
     return (
       <div>
         <Container>
-          <Row className="justify-content-md-center">
-            <Col sm={8}>
+          <Row>
+            <Col md={{ span: 8, offset: 2 }}>
               <br />
               <h2>Prüfungsfachrechner</h2>
-              <p class="lead">Landesabitur Hessen 2018 - Geschwister Scholl Schule Bensheim</p>
+              <p className="lead">Landesabitur Hessen 2018 - Geschwister Scholl Schule Bensheim</p>
               <br />
             </Col>
           </Row>
         </Container>
         <Container>
-          <Row className="justify-content-md-center">
-            <Col sm={8}>
+          <Row>
+            <Col md={{ span: 8, offset: 2 }}>
               <Row>
                 <Col>
-                  <div class="form-group">
-                    <Form.Label for="exampleInputPassword1">1. Leistungskurs</Form.Label>
-                    <select class="form-control" name="lk1" onChange={this.handleChange}>
-                      <option>Mathe</option>
-                      <option>Englisch</option>
-                      <option>Physik</option>
-                      <option>Bio</option>
-                      <option>Chemie</option>
+                  <div>
+                    <Form.Label>1. Leistungskurs</Form.Label>
+                    <select className="form-control" name="advancedCourse1" onChange={this.handleChange}>
+                      {this.state.advancedCourse2 !== "Mathe" ? <option>Mathe</option> : ""}
+                      {this.state.advancedCourse2 !== "Englisch" ? <option>Englisch</option> : ""}
+                      {this.state.advancedCourse2 !== "Bio" ? <option>Bio</option> : ""}
+                      {this.state.advancedCourse2 !== "Chemie" ? <option>Chemie</option> : ""}
+                      {this.state.advancedCourse2 !== "Physik" ? <option>Physik</option> : ""}
                     </select>
                   </div>
                 </Col>
                 <Col>
-                  <div class="form-group">
-                    <Form.Label for="exampleInputPassword1">2. Leistungskurs</Form.Label>
-                    <select class="form-control" name="lk2" onChange={this.handleChange}>
+                  <div>
+                    <Form.Label>2. Leistungskurs</Form.Label>
+                    <select className="form-control" name="advancedCourse2" onChange={this.handleChange}>
                       <option>Deutsch</option>
-                      <option>Englisch </option>
-                      <option>Franz&ouml;sich</option>
+                      {this.state.advancedCourse1 !== "Englisch" ? <option>Englisch</option> : ""}
+                      <option>Französich</option>
                       <option>Spanisch</option>
                       <option>PoWi</option>
                       <option>Geschichte</option>
-                      <option>Mathe</option>
-                      <option>Bio</option>
-                      <option>Chemie</option>
-                      <option>Physik</option>
+                      {this.state.advancedCourse1 !== "Mathe" ? <option>Mathe</option> : ""}
+                      {this.state.advancedCourse1 !== "Bio" ? <option>Bio</option> : ""}
+                      {this.state.advancedCourse1 !== "Chemie" ? <option>Chemie</option> : ""}
+                      {this.state.advancedCourse1 !== "Physik" ? <option>Physik</option> : ""}
                       <option>Informatik</option>
                     </select>
                   </div>
@@ -116,35 +113,39 @@ export class App extends React.Component {
               <Table>
                 <tbody>
                   <tr>
-                    <td style={{ width: '50%' }}>1. Leistungskurs</td>
-                    <td style={{ width: '50%' }}>{this.state.lk1}</td>
+                    <td style={{ width: '50%' }}>1. Leistungskurs (schriftl.)</td>
+                    <td style={{ width: '50%' }}>{this.state.advancedCourse1}</td>
                   </tr>
                   <tr>
-                    <td>2. Leistungskurs</td>
-                    <td>{this.state.lk2}</td>
+                    <td style={{ width: '50%' }}>2. Leistungskurs (schriftl.)</td>
+                    <td style={{ width: '50%' }}>{this.state.advancedCourse2}</td>
                   </tr>
                   <tr>
-                    <td>3. Prüfungsfach</td>
-                    <td>{this.state.pk3}</td>
+                    <td style={{ width: '50%' }}>3. Prüfungsfach</td>
+                    <td style={{ width: '50%' }}>{this.state.examCourse3}</td>
                   </tr>
                   <tr>
-                    <td>4. Prüfungsfach</td>
-                    <td>{this.state.pk4}</td>
+                    <td style={{ width: '50%' }}>4. Prüfungsfach</td>
+                    <td style={{ width: '50%' }}>{this.state.examCourse4}</td>
                   </tr>
                   <tr>
-                    <td>5. Prüfungsfach</td>
-                    <td>{this.state.pk5}</td>
+                    <td style={{ width: '50%' }}>5. Prüfungsfach</td>
+                    <td style={{ width: '50%' }}>{this.state.examCourse5}</td>
                   </tr>
                 </tbody>
               </Table>
+              <p className="text-center">3. oder 4. oder 5. Prüfungsfach ist eine schriftliche Prüfung.</p>
+              <br />
+              <Alert variant="info" className="text-center">Alle Angaben ohne Gewähr!</Alert>
               <br />
             </Col>
           </Row>
         </Container>
         <Container>
-          <Row>
+          <Row md={{ span: 8, offset: 2 }}>
             <Col className="text-center">
               © Robin Schumacher - <a href="https://www.robin-schumacher.com">robin-schumacher.com</a>
+              <p><a href="https://datenschutz.robin-schumacher.com">Datenschutz</a></p>
             </Col>
           </Row>
         </Container>
