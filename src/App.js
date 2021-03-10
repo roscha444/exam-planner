@@ -144,8 +144,7 @@ export class App extends React.Component {
         <Container>
           <Row md={{ span: 8, offset: 2 }}>
             <Col className="text-center">
-              © Robin Schumacher - <a href="https://www.robin-schumacher.com">robin-schumacher.com</a>
-              <p><a href="https://datenschutz.robin-schumacher.com">Datenschutz</a></p>
+              © Robin Schumacher - <a href="https://www.robin-schumacher.com">robin-schumacher.com</a> - <a href="https://datenschutz.robin-schumacher.com">Datenschutz</a> - <a href="https://github.com/roscha444/exam-planner"><i class="fab fa-github" style={{ color: 'black' }}></i> View on Github</a>
             </Col>
           </Row>
         </Container>
